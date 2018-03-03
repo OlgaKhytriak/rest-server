@@ -1,0 +1,13 @@
+/bin/
+target/
+test-output/
+src/.idea/
+.classpath
+.project
+.settings/
+.metadata/
+.idea/
+RemoteSystemsTempFiles
+RESTService.iml
+debug.log
+logger.log
