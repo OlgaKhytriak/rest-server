@@ -8,10 +8,9 @@ import javax.ws.rs.core.Response.Status;
 
 import com.epam.dao.BookDAO;
 import com.epam.model.Book;
-import com.epam.model.LibraryWSException;
+import com.epam.model.NewsPaperWSException;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 public class ResponseHandler {
@@ -35,12 +34,12 @@ public class ResponseHandler {
 
 	public static Response getBookById(Integer id) {
 		if(id < 0){
-			throw new LibraryWSException(INCORRECT_INPUT_VALUE+id,Status.BAD_REQUEST);
+			throw new NewsPaperWSException(INCORRECT_INPUT_VALUE+id,Status.BAD_REQUEST);
 		}
 		Book result = DAO.get(id);
 		
 		if(result == null){
-			throw new LibraryWSException(BOOK_BY_ID_NOT_FOUND,Status.NO_CONTENT);
+			throw new NewsPaperWSException(BOOK_BY_ID_NOT_FOUND,Status.NO_CONTENT);
 		}
 		return Response.status(200).entity(GSON.toJson(DAO.get(id))).build();
 	}
@@ -48,7 +47,7 @@ public class ResponseHandler {
 	public static Response getBooksByParam(String name,String author) {
 		ArrayList<Book> result = new ArrayList<>();
 		if(name == null && author == null){
-			throw new LibraryWSException(NO_INPUT_PARAMETERS+"[name:"+name+",author:"+author+"]",
+			throw new NewsPaperWSException(NO_INPUT_PARAMETERS+"[name:"+name+",author:"+author+"]",
 					Status.BAD_REQUEST);
 		}
 		if(name != null && author == null){
@@ -70,7 +69,7 @@ public class ResponseHandler {
 		}
 		
 		if(result.size()<1){
-			throw new LibraryWSException(BOOK_BY_NAME_OR_AUTHOR_NOT_FOUND
+			throw new NewsPaperWSException(BOOK_BY_NAME_OR_AUTHOR_NOT_FOUND
 					+"[name:"+name+",author:"+author+"]",Status.NO_CONTENT);
 		}
 				
@@ -80,7 +79,7 @@ public class ResponseHandler {
 	
 	public static Response addOrUpdateBook(Integer id, String name, String author, String genre) {
 		if(id == null || name == null || author == null || genre == null || id < 0){
-			throw new LibraryWSException(INCORRECT_INPUT_VALUE
+			throw new NewsPaperWSException(INCORRECT_INPUT_VALUE
 					+"[id:"+id+",name:"+name+",author:"+author+",genre:"+genre+"]", Status.BAD_REQUEST);
 		}
 
@@ -101,12 +100,12 @@ public class ResponseHandler {
 
 	public static Response deleteBook(Integer id) {
 		if(id < 0){
-			throw new LibraryWSException(INCORRECT_INPUT_VALUE+id,Status.BAD_REQUEST);
+			throw new NewsPaperWSException(INCORRECT_INPUT_VALUE+id,Status.BAD_REQUEST);
 		}
 		
 		JsonObject result = new JsonObject();
 		if(DAO.get(id) == null){
-			throw new LibraryWSException(BOOK_BY_ID_NOT_FOUND,Status.NO_CONTENT);
+			throw new NewsPaperWSException(BOOK_BY_ID_NOT_FOUND,Status.NO_CONTENT);
 		}else{
 			DAO.delete(id);
 			result.addProperty("Message",BOOK_WAS_DELETED);

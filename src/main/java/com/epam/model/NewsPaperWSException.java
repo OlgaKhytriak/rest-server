@@ -2,15 +2,15 @@ package com.epam.model;
 
 import javax.ws.rs.core.Response.Status;
 
-public class LibraryWSException extends RuntimeException{
+public class NewsPaperWSException extends RuntimeException{
 	
 	private String message;
 	private Status status;
 	
-	public LibraryWSException(String message) {
+	public NewsPaperWSException(String message) {
 		this.message = message;
 	}
-	public LibraryWSException(String message,Status status) {
+	public NewsPaperWSException(String message, Status status) {
 		this.message = message;
 		this.status = status;
 	}
