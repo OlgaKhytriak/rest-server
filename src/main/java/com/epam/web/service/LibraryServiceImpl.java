@@ -18,7 +18,7 @@ public class LibraryServiceImpl implements LibraryService{
 
 	@Override
 	public Response getBookById(Integer id) {
-		return responseHandler.getBookById(id);
+		return responseHandler.getNewsById(id);
 	}
 
 	@Override

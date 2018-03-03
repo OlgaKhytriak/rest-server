@@ -19,11 +19,20 @@ public class NewsPaperDao {
         newsList.add(new SingleNews(2,"News2","Science","Some text of news","http://url 2"));
         newsList.add(new SingleNews(3,"News3","Society","Some text of news","http://url 3"));
     }
+
     public void add(SingleNews news){
         newsList.add(news);
     }
     public List<SingleNews> getAll(){
         return newsList;
+    }
+    public SingleNews getById(Integer id){
+        for (SingleNews singleNews : newsList) {
+            if(singleNews.getId().equals(id)){
+                return singleNews;
+            }
+        }
+        return null;
     }
     //-------------------------
     public boolean contains(SingleNews singleNews){
@@ -68,14 +77,7 @@ public class NewsPaperDao {
         }
     }
 
-    public SingleNews get(Integer id){
-        for (SingleNews singleNews : newsList) {
-            if(singleNews.getId().equals(id)){
-                return singleNews;
-            }
-        }
-        return null;
-    }
+
 
     public List<SingleNews> getAllByName(String name){//перейминувати
         List<SingleNews> list = new ArrayList<>();

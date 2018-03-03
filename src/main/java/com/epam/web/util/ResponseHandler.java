@@ -8,7 +8,6 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
 import com.epam.dao.NewsPaperDao;
-import com.epam.model.NewsPaperWSException;
 import com.epam.model.SingleNews;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -18,41 +17,39 @@ import static com.epam.web.util.Constants.*;
 
 public class ResponseHandler {
 
-    private Gson GSON = new GsonBuilder().setPrettyPrinting().create();
-    private NewsPaperDao DAO = new NewsPaperDao();
+    private final Gson gson;
+    private final NewsPaperDao newsPaperDao;
 
-
-
-    public Response getAllNews() {
-        return Response.status(200).entity(GSON.toJson(DAO.getAll())).build();
+    public ResponseHandler() {
+        gson = new GsonBuilder().setPrettyPrinting().create();
+        newsPaperDao = new NewsPaperDao();
     }
 
-    public Response getBookById(Integer id) {
-        if (id < 0) {
-            throw new NewsPaperWSException(INCORRECT_INPUT_VALUE + id, Status.BAD_REQUEST);
-        }
-        SingleNews result = DAO.get(id);
+    public Response getAllNews() {
+        return Response.status(200).entity(gson.toJson(newsPaperDao.getAll())).build();
+    }
 
-        if (result == null) {
-            throw new NewsPaperWSException(NEWS_BY_ID_NOT_FOUND, Status.NO_CONTENT);
-        }
-        return Response.status(200).entity(GSON.toJson(DAO.get(id))).build();
+    public Response getNewsById(Integer id) {
+        ifIdIncorrect(id);
+        SingleNews result = newsPaperDao.getById(id);
+        ifNotFoundById(result, id);
+        return Response.status(200).entity(gson.toJson(result)).build();
     }
 
     public Response getBooksByParam(String name, String author) {
         List<SingleNews> result = new ArrayList<>();
         if (name == null && author == null) {
-            throw new NewsPaperWSException(NO_INPUT_PARAMETERS + "[name:" + name + ",author:" + author + "]",
+            throw new WSException(NO_INPUT_PARAMETERS + "[name:" + name + ",author:" + author + "]",
                     Status.BAD_REQUEST);
         }
         if (name != null && author == null) {
-            result = DAO.getAllByName(name);
+            result = newsPaperDao.getAllByName(name);
         } else {
             if (name == null && author != null) {
-                result = DAO.getAllByAuthor(author);
+                result = newsPaperDao.getAllByAuthor(author);
             } else {
                 if (name != null && author != null) {
-                    result = DAO.getAllByName(name);
+                    result = newsPaperDao.getAllByName(name);
                     Iterator<SingleNews> iter = result.iterator();
                     while (iter.hasNext()) {
                         if (!iter.next().getTitle().equals(author)) {
@@ -64,17 +61,17 @@ public class ResponseHandler {
         }
 
         if (result.size() < 1) {
-            throw new NewsPaperWSException(BOOK_BY_NAME_OR_AUTHOR_NOT_FOUND
+            throw new WSException(BOOK_BY_NAME_OR_AUTHOR_NOT_FOUND
                     + "[name:" + name + ",author:" + author + "]", Status.NO_CONTENT);
         }
 
-        return Response.status(200).entity(GSON.toJson(result)).build();
+        return Response.status(200).entity(gson.toJson(result)).build();
     }
 
 
     public Response addOrUpdateBook(Integer id, String name, String author, String genre) {
         if (id == null || name == null || author == null || genre == null || id < 0) {
-            throw new NewsPaperWSException(INCORRECT_INPUT_VALUE
+            throw new WSException(INCORRECT_INPUT_DATA
                     + "[id:" + id + ",name:" + name + ",author:" + author + ",genre:" + genre + "]", Status.BAD_REQUEST);
         }
 
@@ -82,12 +79,12 @@ public class ResponseHandler {
         SingleNews newBook = new SingleNews();
         JsonObject result = new JsonObject();
 
-        SingleNews oldBook = DAO.get(id);
+        SingleNews oldBook = newsPaperDao.getById(id);
         if (oldBook != null) {
-            DAO.update(oldBook, newBook);
+            newsPaperDao.update(oldBook, newBook);
             result.addProperty("Message", NEWS_WAS_UPDATED);
         } else {
-            DAO.add(newBook);
+            newsPaperDao.add(newBook);
             result.addProperty("Message", NEWS_WAS_ADDED);
         }
         return Response.status(200).entity(result.toString()).build();
@@ -95,19 +92,33 @@ public class ResponseHandler {
 
 
     public Response deleteBook(Integer id) {
-        if (id < 0) {
-            throw new NewsPaperWSException(INCORRECT_INPUT_VALUE + id, Status.BAD_REQUEST);
-        }
-
+        ifIdIncorrect(id);
         JsonObject result = new JsonObject();
-        if (DAO.get(id) == null) {
-            throw new NewsPaperWSException(NEWS_BY_ID_NOT_FOUND, Status.NO_CONTENT);
+        if (newsPaperDao.getById(id) == null) {
+            throw new WSException(NEWS_IS_NOT_FOUND, Status.NO_CONTENT);
         } else {
-            DAO.delete(id);
+            newsPaperDao.delete(id);
             result.addProperty("Message", NEWS_WAS_DELETED);
         }
         return Response.status(200).entity(result.toString()).build();
     }
 
+    private boolean ifIdIncorrect(Integer id) {
+        boolean isIncorrect = false;
+        if (id < 0) {
+            isIncorrect = true;
+            String message = String.format("%s id = %s", INCORRECT_INPUT_DATA, id);
+            throw new WSException(message, Status.BAD_REQUEST);
+        }
+        return isIncorrect;
+    }
 
+    private boolean ifNotFoundById(SingleNews result, Integer id) {
+        boolean isNull = (result == null);
+        if (isNull) {
+            String message = String.format("%s id = %s", NEWS_IS_NOT_FOUND, id);
+            throw new WSException(message, Status.NO_CONTENT);
+        }
+        return isNull;
+    }
 }

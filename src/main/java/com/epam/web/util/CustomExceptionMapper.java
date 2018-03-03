@@ -7,7 +7,6 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 
-import com.epam.model.NewsPaperWSException;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -18,8 +17,8 @@ public class CustomExceptionMapper implements ExceptionMapper<Exception>{
 		 Map<String,String> map = new HashMap<>();
 		 Gson gson = new GsonBuilder().setPrettyPrinting().create();
 		 
-		 if(e instanceof NewsPaperWSException){
-			 NewsPaperWSException libException = (NewsPaperWSException)e;
+		 if(e instanceof WSException){
+			 WSException libException = (WSException)e;
 			 map.put("Title", "Failure");
 			 map.put("Code",libException.getStatus().getStatusCode()
 					 +" - "+libException.getStatus());
