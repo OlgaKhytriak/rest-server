@@ -40,7 +40,7 @@ public class NewsContainer {
         newsList.remove(singleNews);
     }
 
-    public boolean delete(Integer id){ //переписати
+    public boolean delete(Integer id){ //переписати не можна видаляти в ытераторы
         Iterator<SingleNews> iter = newsList.iterator();
         while (iter.hasNext()) {
             SingleNews singleNews= iter.next();
@@ -91,11 +91,11 @@ public class NewsContainer {
         return list;
     }
 
-    public List<SingleNews> getAllByAuthor(String author){//перейменувати
-        List<Book> list = new ArrayList<>();
-        for (Book book : newsList) {
-            if(book.getAuthor().equals(author)){
-                list.add(book);
+    public List<SingleNews> getAllByAuthor(String category){//перейменувати на катерогію
+        List<SingleNews> list = new ArrayList<>();
+        for (SingleNews singleNews : newsList) {
+            if(singleNews.getCategory().equals(category)){
+                list.add(singleNews);
             }
         }
         return list;
