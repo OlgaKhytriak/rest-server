@@ -1,16 +1,15 @@
 package com.epam.dao;
 
-import com.epam.model.Book;
 import com.epam.model.SingleNews;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class NewsContainer {
+public class NewsPaperDao {
     private List<SingleNews> newsList;
 
-    public NewsContainer() {
+    public NewsPaperDao() {
         newsList=new ArrayList<>();
         init();
     }
