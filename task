@@ -1,8 +1,8 @@
 Newspaper
 1.	Створити веб-сервіс «Newspaper», сервіс який дозволяє:
 1) отримувати список новин по категорії,
-2) Отримувати всі категорії новин,
-3) Отримувати (читати) одну новину,
++ 2) Отримувати всі категорії новин,
++ 3) Отримувати (читати) одну новину,
 4) Добавляти нову новину,
 5) Редагувати новину.
 Новина складається з
@@ -54,3 +54,5 @@ http://localhost:8080/rest/service/books/1
 http://localhost:8080/rest/service/books/params?name=Inferno
 
 http://localhost:8080/rest/service/books/params?author=Scott%20Mariani
+
+http://localhost:8080/rest/service/books/params?category=Sport

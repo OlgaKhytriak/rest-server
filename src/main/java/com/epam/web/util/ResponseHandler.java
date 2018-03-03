@@ -32,27 +32,34 @@ public class ResponseHandler {
     public Response getNewsById(Integer id) {
         ifIdIncorrect(id);
         SingleNews result = newsPaperDao.getById(id);
-        ifNotFoundById(result, id);
+        ifNotFound(result, "id",id.toString());
+        return Response.status(200).entity(gson.toJson(result)).build();
+    }
+//---------------------------------------------------
+    public Response getNewsByCategory(String category) {
+        List<SingleNews> result  = newsPaperDao.getByCategory(category);
+        ifNotFound(result, "category",category.toString());
         return Response.status(200).entity(gson.toJson(result)).build();
     }
 
-    public Response getBooksByParam(String name, String author) {
+    public Response geNewsByParameters(String title, String category) {
         List<SingleNews> result = new ArrayList<>();
-        if (name == null && author == null) {
-            throw new WSException(NO_INPUT_PARAMETERS + "[name:" + name + ",author:" + author + "]",
+
+        if (title == null && category == null) {
+            throw new WSException(NO_INPUT_PARAMETERS + "[name:" + title + ",category:" + category + "]",
                     Status.BAD_REQUEST);
         }
-        if (name != null && author == null) {
-            result = newsPaperDao.getAllByName(name);
+        if (title != null && category == null) {
+            result = newsPaperDao.getAllByName(title);
         } else {
-            if (name == null && author != null) {
-                result = newsPaperDao.getAllByAuthor(author);
+            if (title == null && category != null) {
+                result = newsPaperDao.getAllByAuthor(category);
             } else {
-                if (name != null && author != null) {
-                    result = newsPaperDao.getAllByName(name);
+                if (title != null && category != null) {
+                    result = newsPaperDao.getAllByName(title);
                     Iterator<SingleNews> iter = result.iterator();
                     while (iter.hasNext()) {
-                        if (!iter.next().getTitle().equals(author)) {
+                        if (!iter.next().getTitle().equals(category)) {
                             iter.remove();
                         }
                     }
@@ -62,7 +69,7 @@ public class ResponseHandler {
 
         if (result.size() < 1) {
             throw new WSException(BOOK_BY_NAME_OR_AUTHOR_NOT_FOUND
-                    + "[name:" + name + ",author:" + author + "]", Status.NO_CONTENT);
+                    + "[name:" + title + ",category:" + category + "]", Status.NO_CONTENT);
         }
 
         return Response.status(200).entity(gson.toJson(result)).build();
@@ -104,21 +111,22 @@ public class ResponseHandler {
     }
 
     private boolean ifIdIncorrect(Integer id) {
-        boolean isIncorrect = false;
-        if (id < 0) {
-            isIncorrect = true;
+        boolean isIncorrect = (id <= 0);
+        if (isIncorrect) {
             String message = String.format("%s id = %s", INCORRECT_INPUT_DATA, id);
             throw new WSException(message, Status.BAD_REQUEST);
         }
         return isIncorrect;
     }
 
-    private boolean ifNotFoundById(SingleNews result, Integer id) {
+    private boolean ifNotFound(Object result, String paramName, String paramValue) {
         boolean isNull = (result == null);
         if (isNull) {
-            String message = String.format("%s id = %s", NEWS_IS_NOT_FOUND, id);
+            String message = String.format("%s %s = %s", NEWS_IS_NOT_FOUND, paramName, paramValue );
             throw new WSException(message, Status.NO_CONTENT);
         }
         return isNull;
     }
+
+
 }

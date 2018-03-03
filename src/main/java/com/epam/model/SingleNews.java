@@ -10,11 +10,11 @@ public class SingleNews {
     private String description;
     private String link;
 
-    public SingleNews(Integer id, String title,String category, String description, String link) {
+    public SingleNews(Integer id, String title, String category, String description, String link) {
         this.id = id;
         this.title = title;
-        this.description = description;
         this.category = category;
+        this.description = description;
         this.link = link;
     }
 

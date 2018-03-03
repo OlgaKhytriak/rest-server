@@ -1,5 +1,7 @@
 package com.epam.web.service;
 
+import com.epam.model.SingleNews;
+
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.FormParam;
@@ -11,24 +13,27 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.List;
 
 public interface LibraryService {
 
 	@GET
 	@Path("/")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getAllBooks();
+	public Response getAllNews();
+
+	@GET
+	@Path("/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getNewsById(@PathParam("id") Integer id);
 
 	@GET
 	@Path("/params")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getBooksByParams(@QueryParam("name") String name,
-			@QueryParam("author") String author);
+	public Response getNewsByParameters(@QueryParam("title") String title,
+			@QueryParam("category") String category);
 	
-	@GET
-	@Path("/{id}")
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response getBookById(@PathParam("id") Integer id);
+
 	
 	
 	@POST

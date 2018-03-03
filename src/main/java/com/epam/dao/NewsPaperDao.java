@@ -34,7 +34,25 @@ public class NewsPaperDao {
         }
         return null;
     }
+    public List<SingleNews> getByCategory(String category){
+        List<SingleNews> list = new ArrayList<>();
+        for (SingleNews singleNews : newsList) {
+            if(singleNews.getCategory().equals(category)){
+                list.add(singleNews);
+            }
+        }
+        return list;
+    }
     //-------------------------
+    public List<SingleNews> getAllByName(String name){//перейминувати
+        List<SingleNews> list = new ArrayList<>();
+        for (SingleNews singleNews : newsList) {
+            if(singleNews.getTitle().equals(name)){
+                list.add(singleNews);
+            }
+        }
+        return list;
+    }
     public boolean contains(SingleNews singleNews){
         return newsList.contains(singleNews);
     }
@@ -79,15 +97,7 @@ public class NewsPaperDao {
 
 
 
-    public List<SingleNews> getAllByName(String name){//перейминувати
-        List<SingleNews> list = new ArrayList<>();
-        for (SingleNews singleNews : newsList) {
-            if(singleNews.getTitle().equals(name)){
-                list.add(singleNews);
-            }
-        }
-        return list;
-    }
+
 
     public List<SingleNews> getAllByAuthor(String category){//перейменувати на катерогію
         List<SingleNews> list = new ArrayList<>();
@@ -98,5 +108,7 @@ public class NewsPaperDao {
         }
         return list;
     }
+
+
 
 }
