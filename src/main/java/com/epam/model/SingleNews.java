@@ -6,15 +6,15 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class SingleNews {
     private Integer id;
     private String title;
+    private String category;
     private String description;
-    private String body;
     private String link;
 
-    public SingleNews(Integer id, String title, String description, String body, String link) {
+    public SingleNews(Integer id, String title,String category, String description, String link) {
         this.id = id;
         this.title = title;
         this.description = description;
-        this.body = body;
+        this.category = category;
         this.link = link;
     }
 
@@ -57,20 +57,20 @@ public class SingleNews {
         this.title = title;
     }
 
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
     public String getDescription() {
         return description;
     }
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public String getBody() {
-        return body;
-    }
-
-    public void setBody(String body) {
-        this.body = body;
     }
 
     public String getLink() {
