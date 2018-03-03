@@ -8,31 +8,32 @@ import com.epam.web.util.ResponseHandler;
 
 @Path("/service/books")
 public class LibraryServiceImpl implements LibraryService{
+	private ResponseHandler responseHandler = new ResponseHandler();
 	
 	
 	@Override
 	public Response getAllBooks() {
-		return ResponseHandler.getAllNews();
+		return responseHandler.getAllNews();
 	}
 
 	@Override
 	public Response getBookById(Integer id) {
-		return ResponseHandler.getBookById(id);
+		return responseHandler.getBookById(id);
 	}
 
 	@Override
 	public Response getBooksByParams(String name,String author) {
-		return ResponseHandler.getBooksByParam(name,author);
+		return responseHandler.getBooksByParam(name,author);
 	}
 
 	@Override
 	public Response addOrUpdateBook(Integer id, String name, String author, String genre) {
-		return ResponseHandler.addOrUpdateBook(id, name, author, genre);
+		return responseHandler.addOrUpdateBook(id, name, author, genre);
 	}
 
 	@Override
 	public Response deleteBook(Integer id) {
-		return ResponseHandler.deleteBook(id);
+		return responseHandler.deleteBook(id);
 	}
 
 	

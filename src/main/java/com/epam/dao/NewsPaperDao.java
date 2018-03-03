@@ -22,7 +22,10 @@ public class NewsPaperDao {
     public void add(SingleNews news){
         newsList.add(news);
     }
-
+    public List<SingleNews> getAll(){
+        return newsList;
+    }
+    //-------------------------
     public boolean contains(SingleNews singleNews){
         return newsList.contains(singleNews);
     }
@@ -63,10 +66,6 @@ public class NewsPaperDao {
         if(oldNewsDeleted){
             newsList.add(newSingleNews);
         }
-    }
-
-    public List<SingleNews> getAll(){
-        return newsList;
     }
 
     public SingleNews get(Integer id){
