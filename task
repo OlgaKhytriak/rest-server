@@ -45,3 +45,12 @@ Library
 4) в браузері зайти по зсилці
 http://localhost:8080/rest/service/books
 має видати перелік книжок
+-------------------------------------------------
+- всі книги
+http://localhost:8080/rest/service/books
+- по id
+http://localhost:8080/rest/service/books/1
+
+http://localhost:8080/rest/service/books/params?name=Inferno
+
+http://localhost:8080/rest/service/books/params?author=Scott%20Mariani

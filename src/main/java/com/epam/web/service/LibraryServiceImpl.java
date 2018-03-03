@@ -1,4 +1,4 @@
-package com.epam.web.service.impl;
+package com.epam.web.service;
 
 import javax.ws.rs.Path;
 import javax.ws.rs.core.Response;
@@ -12,7 +12,7 @@ public class LibraryServiceImpl implements LibraryService{
 	
 	@Override
 	public Response getAllBooks() {
-		return ResponseHandler.getAllBooks();
+		return ResponseHandler.getAllNews();
 	}
 
 	@Override

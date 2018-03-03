@@ -29,8 +29,7 @@ public class ResponseHandler {
     private static String BOOK_WAS_DELETED = "Book was deleted successfully";
 
 
-    public static Response getAllBooks() {
-
+    public static Response getAllNews() {
         return Response.status(200).entity(GSON.toJson(DAO.getAll())).build();
     }
 

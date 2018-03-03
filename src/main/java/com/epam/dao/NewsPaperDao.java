@@ -15,9 +15,9 @@ public class NewsPaperDao {
     }
 
     private void init(){
-        newsList.add(new SingleNews(1,"News1","Interesting news 1","Some text of news","http://ur1 1"));
-        newsList.add(new SingleNews(2,"News2","Interesting news 2","Some text of news","http://url 2"));
-        newsList.add(new SingleNews(3,"News3","Interesting news 3","Some text of news","http://url 3"));
+        newsList.add(new SingleNews(1,"News1","Sport","Some text of news","http://ur1 1"));
+        newsList.add(new SingleNews(2,"News2","Science","Some text of news","http://url 2"));
+        newsList.add(new SingleNews(3,"News3","Society","Some text of news","http://url 3"));
     }
     public void add(SingleNews news){
         newsList.add(news);
@@ -63,8 +63,6 @@ public class NewsPaperDao {
         if(oldNewsDeleted){
             newsList.add(newSingleNews);
         }
-
-
     }
 
     public List<SingleNews> getAll(){
