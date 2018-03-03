@@ -3,14 +3,14 @@ package com.epam.model;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement(name = "news")
-public class News {
+public class SingleNews {
     private Integer id;
     private String title;
     private String description;
     private String body;
     private String link;
 
-    public News(Integer id, String title, String description, String body, String link) {
+    public SingleNews(Integer id, String title, String description, String body, String link) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -18,7 +18,7 @@ public class News {
         this.link = link;
     }
 
-    public News() {
+    public SingleNews() {
     }
 
     @Override
@@ -33,7 +33,7 @@ public class News {
 
     @Override
     public boolean equals(Object obj) {
-        News news = (News) obj;
+        SingleNews news = (SingleNews) obj;
         if (this.id == news.id || this.title.equals(news.title)) {
             return true;
         }
