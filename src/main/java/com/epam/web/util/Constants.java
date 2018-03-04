@@ -5,7 +5,7 @@ public class Constants {
     }
 
     public static final String INCORRECT_INPUT_DATA = "Incorrect input : ";
-    public static final String NEWS_IS_NOT_FOUND = "News is not found";
+    public static final String NEWS_IS_NOT_FOUND = "News is not found for ";
     public static final String NO_INPUT_PARAMETERS = "There are not input parameters: ";
     //rewrite
     public static final String BOOK_BY_NAME_OR_AUTHOR_NOT_FOUND = "There are no books with such parametres: ";

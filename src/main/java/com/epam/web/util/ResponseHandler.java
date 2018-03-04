@@ -32,50 +32,33 @@ public class ResponseHandler {
     public Response getNewsById(Integer id) {
         ifIdIncorrect(id);
         SingleNews result = newsPaperDao.getById(id);
-        ifNotFound(result, "id",id.toString());
-        return Response.status(200).entity(gson.toJson(result)).build();
-    }
-//---------------------------------------------------
-    public Response getNewsByCategory(String category) {
-        List<SingleNews> result  = newsPaperDao.getByCategory(category);
-        ifNotFound(result, "category",category.toString());
-        return Response.status(200).entity(gson.toJson(result)).build();
-    }
-
-    public Response geNewsByParameters(String title, String category) {
-        List<SingleNews> result = new ArrayList<>();
-
-        if (title == null && category == null) {
-            throw new WSException(NO_INPUT_PARAMETERS + "[name:" + title + ",category:" + category + "]",
-                    Status.BAD_REQUEST);
+        if (null == result) {
+            ifNotFound("id", id.toString());
         }
+        return Response.status(200).entity(gson.toJson(result)).build();
+    }
+
+    public Response getNewsByParameters(String title, String category) {
+        List<SingleNews> result = null;
         if (title != null && category == null) {
-            result = newsPaperDao.getAllByName(title);
-        } else {
-            if (title == null && category != null) {
-                result = newsPaperDao.getAllByAuthor(category);
-            } else {
-                if (title != null && category != null) {
-                    result = newsPaperDao.getAllByName(title);
-                    Iterator<SingleNews> iter = result.iterator();
-                    while (iter.hasNext()) {
-                        if (!iter.next().getTitle().equals(category)) {
-                            iter.remove();
-                        }
-                    }
-                }
-            }
+            result = newsPaperDao.getByTitle(title);
         }
-
+        if (title == null && category != null) {
+            result = newsPaperDao.getByCategory(category);
+        }
+        if (title != null && category != null) {
+            result = newsPaperDao.getByTitleAndCategory(title, category);
+        }
+        if (title == null && category == null) {
+            ifAllParametersNull(title, category);
+        }
         if (result.size() < 1) {
-            throw new WSException(BOOK_BY_NAME_OR_AUTHOR_NOT_FOUND
-                    + "[name:" + title + ",category:" + category + "]", Status.NO_CONTENT);
+            ifNotFound("title", title.toString(), "category", category.toString());
         }
-
         return Response.status(200).entity(gson.toJson(result)).build();
     }
 
-
+    //---------------------------------------------------
     public Response addOrUpdateBook(Integer id, String name, String author, String genre) {
         if (id == null || name == null || author == null || genre == null || id < 0) {
             throw new WSException(INCORRECT_INPUT_DATA
@@ -110,6 +93,11 @@ public class ResponseHandler {
         return Response.status(200).entity(result.toString()).build();
     }
 
+    private void ifAllParametersNull(String title, String category) {
+        String message = String.format("%s title = %s; category = %s", NO_INPUT_PARAMETERS, title, category);
+        throw new WSException(message, Status.BAD_REQUEST);
+    }
+
     private boolean ifIdIncorrect(Integer id) {
         boolean isIncorrect = (id <= 0);
         if (isIncorrect) {
@@ -119,13 +107,14 @@ public class ResponseHandler {
         return isIncorrect;
     }
 
-    private boolean ifNotFound(Object result, String paramName, String paramValue) {
-        boolean isNull = (result == null);
-        if (isNull) {
-            String message = String.format("%s %s = %s", NEWS_IS_NOT_FOUND, paramName, paramValue );
-            throw new WSException(message, Status.NO_CONTENT);
+    private void ifNotFound(String... args) {
+        String message = null;
+        if (2 == args.length) {
+            message = String.format("%s %s = %s", NEWS_IS_NOT_FOUND, args[0], args[1]);
+        } else if (4 == args.length) {
+            message = String.format("%s %s = %s; %s = %s", NEWS_IS_NOT_FOUND, args[0], args[1], args[2], args[3]);
         }
-        return isNull;
+        throw new WSException(message, Status.NO_CONTENT);
     }
 
 

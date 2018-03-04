@@ -15,9 +15,9 @@ public class NewsPaperDao {
     }
 
     private void init(){
-        newsList.add(new SingleNews(1,"News1","Sport","Some text of news","http://ur1 1"));
-        newsList.add(new SingleNews(2,"News2","Science","Some text of news","http://url 2"));
-        newsList.add(new SingleNews(3,"News3","Society","Some text of news","http://url 3"));
+        newsList.add(new SingleNews(1,"News1","sport","Some text of news","http://ur1 1"));
+        newsList.add(new SingleNews(2,"News2","science","Some text of news","http://url 2"));
+        newsList.add(new SingleNews(3,"News3","society","Some text of news","http://url 3"));
     }
 
     public void add(SingleNews news){
@@ -43,16 +43,26 @@ public class NewsPaperDao {
         }
         return list;
     }
-    //-------------------------
-    public List<SingleNews> getAllByName(String name){//перейминувати
+    public List<SingleNews> getByTitle(String title){
         List<SingleNews> list = new ArrayList<>();
         for (SingleNews singleNews : newsList) {
-            if(singleNews.getTitle().equals(name)){
+            if(singleNews.getTitle().equals(title)){
                 list.add(singleNews);
             }
         }
         return list;
     }
+    public List<SingleNews> getByTitleAndCategory(String title, String category){
+        List<SingleNews> list = new ArrayList<>();
+        for (SingleNews singleNews : newsList) {
+            if(singleNews.getTitle().equals(title)&&singleNews.getCategory().equals(category)){
+                list.add(singleNews);
+            }
+        }
+        return list;
+    }
+    //-------------------------
+
     public boolean contains(SingleNews singleNews){
         return newsList.contains(singleNews);
     }
