@@ -12,8 +12,7 @@ import java.util.List;
 @Path("/service/news")
 public class LibraryServiceImpl implements LibraryService{
 	private ResponseHandler responseHandler = new ResponseHandler();
-	
-	
+
 	@Override
 	public Response getAllNews() {
 		return responseHandler.getAllNews();
@@ -29,21 +28,15 @@ public class LibraryServiceImpl implements LibraryService{
 		return responseHandler.getNewsByParameters(title,category);
 	}
 
-
 	@Override
-	public Response addOrUpdateBook(Integer id, String name, String author, String genre) {
-		return responseHandler.addOrUpdateBook(id, name, author, genre);
+	public Response addOrUpdateNews(Integer id, String title, String category, String description, String link) {
+		return responseHandler.addOrUpdateNews(id,title,category,description,link);
 	}
 
 	@Override
-	public Response deleteBook(Integer id) {
-		return responseHandler.deleteBook(id);
+	public Response deleteNews(Integer id) {
+		return responseHandler.deleteNews(id);
 	}
 
-	
- 
-	
-	
-	
 
 }

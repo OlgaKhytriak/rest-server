@@ -17,37 +17,34 @@ import java.util.List;
 
 public interface LibraryService {
 
-	@GET
-	@Path("/")
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response getAllNews();
+    @GET
+    @Path("/")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getAllNews();
 
-	@GET
-	@Path("/{id}")
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response getNewsById(@PathParam("id") Integer id);
+    @GET
+    @Path("/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getNewsById(@PathParam("id") Integer id);
 
-	@GET
-	@Path("/params")
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response getNewsByParameters(@QueryParam("title") String title,
-			@QueryParam("category") String category);
-	
+    @GET
+    @Path("/params")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getNewsByParameters(@QueryParam("title") String title,
+                                        @QueryParam("category") String category);
 
-	
-	
-	@POST
-	@Path("/{id}")
-	@Produces(MediaType.APPLICATION_JSON)
-	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-	public Response addOrUpdateBook(@PathParam("id") Integer id,
-			@FormParam("name") String name,
-			@FormParam("author") String author,
-			@FormParam("genre") String genre);
-	
-	@DELETE
-	@Path("/{id}")
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response deleteBook(@PathParam("id") Integer id);
+    @POST
+    @Path("/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    public Response addOrUpdateNews(@PathParam("id") Integer id,
+                                    @FormParam("title") String title,
+                                    @FormParam("category") String category,
+                                    @FormParam("description") String description,
+                                    @FormParam("link") String link);
+    @DELETE
+    @Path("/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response deleteNews(@PathParam("id") Integer id);
 
 }
