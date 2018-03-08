@@ -3,14 +3,10 @@ package com.epam.web.service;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.Response;
 
-import com.epam.model.SingleNews;
-import com.epam.web.service.LibraryService;
 import com.epam.web.util.ResponseHandler;
 
-import java.util.List;
-
 @Path("/service/news")
-public class LibraryServiceImpl implements LibraryService{
+public class NewspaperServiceImpl implements NewspaperService {
 	private ResponseHandler responseHandler = new ResponseHandler();
 
 	@Override

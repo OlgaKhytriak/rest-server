@@ -15,7 +15,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.List;
 
-public interface LibraryService {
+public interface NewspaperService {
 
     @GET
     @Path("/")
@@ -33,6 +33,7 @@ public interface LibraryService {
     public Response getNewsByParameters(@QueryParam("title") String title,
                                         @QueryParam("category") String category);
 
+
     @POST
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
@@ -42,6 +43,8 @@ public interface LibraryService {
                                     @FormParam("category") String category,
                                     @FormParam("description") String description,
                                     @FormParam("link") String link);
+
+
     @DELETE
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)

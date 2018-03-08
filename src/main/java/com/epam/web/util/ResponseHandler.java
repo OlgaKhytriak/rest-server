@@ -15,13 +15,9 @@ import static com.epam.web.util.Constants.*;
 
 public class ResponseHandler {
 
-    private final Gson gson;
-    private final NewsPaperDao newsPaperDao;
+    private static Gson gson=new GsonBuilder().setPrettyPrinting().create();
+    private static NewsPaperDao newsPaperDao=new NewsPaperDao();
 
-    public ResponseHandler() {
-        gson = new GsonBuilder().setPrettyPrinting().create();
-        newsPaperDao = new NewsPaperDao();
-    }
 
     public Response getAllNews() {
         return Response.status(200).entity(gson.toJson(newsPaperDao.getAll())).build();
@@ -58,7 +54,8 @@ public class ResponseHandler {
 
     public Response addOrUpdateNews(Integer id, String title, String category, String description, String link) {
 
-        SingleNews newSingleNews =createSingleNews(id,title,category,description,link);
+        //SingleNews newSingleNews =createSingleNews(id,title,category,description,link);
+        SingleNews newSingleNews = new SingleNews(id, title, category, description, link);
         SingleNews oldSingleNews = newsPaperDao.getById(id);
         JsonObject result = new JsonObject();
 
@@ -77,17 +74,16 @@ public class ResponseHandler {
         JsonObject result = new JsonObject();
         if (newsPaperDao.getById(id) == null) {
             ifNotFound("id", id.toString());
-        }
-        else {
+        } else {
             newsPaperDao.delete(id);
             result.addProperty("Message", NEWS_DELETED);
         }
         return Response.status(200).entity(result.toString()).build();
     }
 
-    private SingleNews createSingleNews(Integer id, String title, String category, String description, String link){
-        if (id == null || title == null || category == null || description == null || link==null || id < 0) {
-            String message = String.format("%s id = %s; title= %s; category = %s; description = %s; link = %s", INCORRECT_INPUT_DATA, id, title,category,description,link);
+    private SingleNews createSingleNews(Integer id, String title, String category, String description, String link) {
+        if (id == null || title == null || category == null || description == null || link == null || id < 0) {
+            String message = String.format("%s id = %s; title= %s; category = %s; description = %s; link = %s", INCORRECT_INPUT_DATA, id, title, category, description, link);
             throw new WSException(message, Status.BAD_REQUEST);
         }
         return new SingleNews(id, title, category, description, link);

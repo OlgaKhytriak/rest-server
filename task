@@ -57,3 +57,5 @@ http://localhost:8080/rest/service/news/params?category=Sport
 ++
 http://localhost:8080/rest/service/news/params?title=News1&category=sport
 http://localhost:8080/rest/service/news/params?title=News2&category=science
+
+http://localhost:8080/rest/service/news/params?title=News1&category=sport
