@@ -74,7 +74,6 @@ public class NewsPaperDao {
         }
         return list;
     }
-    //-------------------------
 
     public boolean contains(SingleNews singleNews) {
         return newsList.contains(singleNews);
@@ -108,31 +107,5 @@ public class NewsPaperDao {
     public void update(SingleNews oldSingleNews, SingleNews newSingleNews) {
         newsList.remove(oldSingleNews);
         newsList.add(newSingleNews);
-
-/*
-        Iterator<SingleNews> iter = newsList.iterator();
-        boolean oldNewsDeleted = false;
-        while (iter.hasNext()) {
-            if(iter.next().getId().equals(oldSingleNews.getId())){
-                iter.remove();
-                oldNewsDeleted = true;
-            }
-        }
-        if(oldNewsDeleted){
-            newsList.add(newSingleNews);
-        }
-*/
     }
-
-    public List<SingleNews> getAllByAuthor(String category) {//перейменувати на катерогію
-        List<SingleNews> list = new ArrayList<>();
-        for (SingleNews singleNews : newsList) {
-            if (singleNews.getCategory().equals(category)) {
-                list.add(singleNews);
-            }
-        }
-        return list;
-    }
-
-
 }

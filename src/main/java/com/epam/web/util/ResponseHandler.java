@@ -54,8 +54,8 @@ public class ResponseHandler {
 
     public Response addOrUpdateNews(Integer id, String title, String category, String description, String link) {
 
-        //SingleNews newSingleNews =createSingleNews(id,title,category,description,link);
-        SingleNews newSingleNews = new SingleNews(id, title, category, description, link);
+        SingleNews newSingleNews =createSingleNews(id,title,category,description,link);
+        //SingleNews newSingleNews = new SingleNews(id, title, category, description, link);
         SingleNews oldSingleNews = newsPaperDao.getById(id);
         JsonObject result = new JsonObject();
 
